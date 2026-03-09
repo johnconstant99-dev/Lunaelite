@@ -1,0 +1,10 @@
+{
+  "name": "lunaelite-backend",
+  "version": "1.0.0",
+  "description": "Luna Elite booking backend – Netlify Functions + Google Sheets + Stripe",
+  "dependencies": {
+    "google-auth-library": "^9.6.3",
+    "google-spreadsheet": "^4.1.2",
+    "stripe": "^14.21.0"
+  }
+}

@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Luna Elite • Massage & VIP Relaxation</title>
+  <meta name="description" content="Luna Elite offers professional massage therapy and private VIP sessions across the United States. Book a relaxing, discreet appointment today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:    #c9a96e;
+      --gold-lt: #e8d5b0;
+      --dark:    #0d0d0d;
+      --mid:     #1a1a1a;
+      --card:    #141414;
+      --text:    #e8e0d5;
+      --muted:   #7a7065;
+      --border:  rgba(201,169,110,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(16px);
+    }
+    header .container { display: flex; align-items: center; justify-content: space-between; }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    nav { display: flex; gap: 2.2rem; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    nav a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #home::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 55% at 70% 50%, rgba(201,169,110,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(201,169,110,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    #home h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 7vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s forwards;
+    }
+
+    #home h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    #home p {
+      max-width: 500px;
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.28s ease;
+    }
+
+    .btn.primary {
+      background: var(--gold);
+      color: var(--dark);
+      border: 1px solid var(--gold);
+    }
+    .btn.primary:hover {
+      background: var(--gold-lt);
+      border-color: var(--gold-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,169,110,0.22);
+    }
+
+    .btn.outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--border);
+    }
+    .btn.outline:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 1rem 0 4rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider span {
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 0; position: relative; z-index: 1; }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      margin-bottom: 3rem;
+      line-height: 1.15;
+    }
+
+    /* ── SERVICE CARDS ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5px;
+      border: 1.5px solid var(--border);
+    }
+
+    .card {
+      background: var(--card);
+      padding: 2.8rem 2.4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover { background: #181818; }
+    .card:hover::before { opacity: 1; }
+
+    .card-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.1);
+      line-height: 1;
+      margin-bottom: 1.4rem;
+    }
+
+    .card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .card .duration {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 1.4rem;
+      margin-top: auto;
+      gap: 1rem;
+    }
+
+    .price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+
+    .btn-pay {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.25s;
+      white-space: nowrap;
+    }
+    .btn-pay:hover {
+      background: var(--gold);
+      color: var(--dark);
+      box-shadow: 0 6px 20px rgba(201,169,110,0.25);
+    }
+
+    /* ── ABOUT ── */
+    #about .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+    .about-visual::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border: 1px solid var(--border);
+      z-index: -1;
+    }
+    .about-visual .monogram {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.12);
+      font-style: italic;
+    }
+
+    .about-text .section-label { margin-bottom: 1.2rem; }
+    .about-text h2 { margin-bottom: 1.5rem; }
+    .about-text p { color: var(--muted); margin-bottom: 1.4rem; }
+
+    /* ── BOOKING FORM ── */
+    #booking { background: var(--mid); }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .booking-info p { color: var(--muted); margin-bottom: 2rem; }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+    .info-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      margin-top: 0.55rem;
+      flex-shrink: 0;
+    }
+    .info-item p { color: var(--muted); margin: 0; font-size: 0.9rem; }
+
+    .booking-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .form-group label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.85rem 1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.25s;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group select option { background: var(--dark); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+
+    .form-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--gold);
+      line-height: 1.6;
+    }
+    .form-note strong { color: var(--gold); }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      border: 1.5px solid var(--border);
+    }
+
+    .contact-item {
+      background: var(--card);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .contact-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: var(--gold);
+    }
+
+    .contact-item h4 {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-item a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.25s;
+    }
+    .contact-item a:hover { color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    footer p {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    footer span { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── STRIPE BADGE ── */
+    .stripe-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+    .stripe-badge svg { width: 40px; opacity: 0.5; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      #about .container { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+      .booking-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="logo">Luna Elite</div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#booking">Booking</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="container">
+      <p class="hero-eyebrow">Professional Massage Therapy · United States</p>
+      <h1>Relax.<br><em>Restore.</em><br>Renew.</h1>
+      <p>Luna Elite offers bespoke massage therapy and private VIP sessions. Personalized care designed around your comfort, privacy, and results.</p>
+      <div class="hero-ctas">
+        <a class="btn primary" href="#services">View Services</a>
+        <a class="btn outline" href="#booking">Request Appointment</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <p class="section-label">Our Services</p>
+      <h2>Curated Experiences</h2>
+
+      <div class="cards">
+
+        <!-- SERVICE 1: Swedish -->
+        <div class="card">
+          <div class="card-num">01</div>
+          <h3>Swedish Relaxation</h3>
+          <p class="duration">60 minutes</p>
+          <p>Gentle full-body massage using long, flowing strokes to relieve stress, improve circulation, and restore calm.</p>
+          <div class="card-footer">
+            <span class="price">$150</span>
+            <!--
+              ════════════════════════════════════════
+              STEP 1: Go to dashboard.stripe.com
+              STEP 2: Click "Payment Links" → "+ New"
+              STEP 3: Add product "Swedish Relaxation" at $150
+              STEP 4: Copy the link and replace the href below
+              ════════════════════════════════════════
+            -->
+            <a class="btn-pay" href="PASTE_STRIPE_LINK_1_HERE" target="_blank">Book & Pay</a>
+          </div>
+        </div>
+
+        <!-- SERVICE 2: Deep Tissue 60 -->
+        <div class="card">
+          <div class="card-num">02</div>
+          <h3>Deep Tissue Therapy</h3>
+          <p class="duration">60 minutes</p>
+          <p>Focused pressure targeting chronic muscle tension and knots. Ideal for athletes and those with persistent discomfort.</p>
+          <div class="card-footer">
+            <span class="price">$200</span>
+            <!--
+              Replace href with your Stripe Payment Link for Deep Tissue 60min ($200)
+            -->
+            <a class="btn-pay" href="PASTE_STRIPE_LINK_2_HERE" target="_blank">Book & Pay</a>
+          </div>
+        </div>
+
+        <!-- SERVICE 3: Deep Tissue 90 -->
+        <div class="card">
+          <div class="card-num">03</div>
+          <h3>Deep Tissue Therapy</h3>
+          <p class="duration">90 minutes</p>
+          <p>Extended deep tissue session for full-body relief. More time means more thorough work on problem areas.</p>
+          <div class="card-footer">
+            <span class="price">$300</span>
+            <!--
+              Replace href with your Stripe Payment Link for Deep Tissue 90min ($300)
+            -->
+            <a class="btn-pay" href="PASTE_STRIPE_LINK_3_HERE" target="_blank">Book & Pay</a>
+          </div>
+        </div>
+
+        <!-- SERVICE 4: VIP -->
+        <div class="card">
+          <div class="card-num">04</div>
+          <h3>VIP Signature Session</h3>
+          <p class="duration">90 minutes</p>
+          <p>Bespoke, fully private luxury experience. Customized techniques, premium ambiance, and complete discretion guaranteed.</p>
+          <div class="card-footer">
+            <span class="price">$500</span>
+            <!--
+              Replace href with your Stripe Payment Link for VIP Signature ($500)
+            -->
+            <a class="btn-pay" href="PASTE_STRIPE_LINK_4_HERE" target="_blank">Book & Pay</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 1.5rem; display:flex; align-items:center; gap:0.6rem;">
+        <span style="font-size:0.72rem; color: var(--muted);">Secure payments powered by</span>
+        <svg viewBox="0 0 60 25" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.8 8.7c0-.7.6-1 1.5-1 1.4 0 3 .4 4.4 1.1V5.4C8.3 4.8 6.8 4.5 5.3 4.5 2.2 4.5 0 6.1 0 8.9c0 4.3 6 3.6 6 5.5 0 .8-.7 1.1-1.7 1.1-1.5 0-3.3-.6-4.8-1.5v3.5c1.6.7 3.3 1 4.8 1C7.6 18.5 10 17 10 14.1c0-4.6-6.2-3.8-6.2-5.4zM20 4.7l-2.2.5-.2-1-3.6.8v13.7l3.8-.8V13c.7.5 1.7.8 2.7.8 2.7 0 5.2-2 5.2-6.7 0-4.2-2.5-6-5.7-6zm-.9 9.4c-.5 0-1-.2-1.3-.4V8.6c.3-.3.8-.4 1.3-.4 1.7 0 2.7 1.3 2.7 2.9 0 1.7-1 3-2.7 3zM30 3.7l3.8-.8V0l-3.8.8v2.9zM30 5.2l3.8-.8v13.3l-3.8.8V5.2zM40 5l-.3 1.5c-.7-1-1.8-1.6-3-1.6-2.7 0-5.2 2.2-5.2 6.8 0 4.1 2.2 6.3 5 6.3 1.3 0 2.3-.6 3-.5l.3 1.4 3.4-.7V4.2L40 5zm-.2 9.4c-.3.3-.8.5-1.4.5-1.5 0-2.5-1.2-2.5-3s1-3 2.5-3c.6 0 1.1.2 1.4.5v5zM54.4 4.5c-1.3 0-2.4.6-3 1.6L51 4.7l-3.4.8v13.2l3.8-.8v-9c.4-.5 1-.8 1.8-.8.6 0 1.1.2 1.5.5V5a4 4 0 0 0-1.3-.5z" fill="#7a7065"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-visual">
+        <div class="monogram">L</div>
+      </div>
+      <div class="about-text">
+        <p class="section-label">About Luna Elite</p>
+        <h2>Where Luxury Meets<br><em style="font-style:italic; color:var(--gold);">Therapeutic Expertise</em></h2>
+        <p>I'm Luna Elite — a certified massage therapist with a passion for creating transformative experiences. Every session is built around you: your preferences, your pace, and your wellbeing.</p>
+        <p>Privacy and professionalism are the foundation of everything I do. From the moment you reach out, you can expect discretion, hygiene, and results that go beyond surface-level relaxation.</p>
+        <p>Available across the United States, I bring luxury to your location — whether that's a private residence, hotel, or studio setting.</p>
+        <a class="btn primary" href="#booking" style="display:inline-block; margin-top:1rem;">Schedule a Session</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section id="booking">
+    <div class="container">
+      <div class="booking-grid">
+        <div class="booking-info">
+          <p class="section-label">Appointments</p>
+          <h2>Request a<br>Session</h2>
+          <p>Fill out the form with your details and preferred service. We'll confirm availability and send a payment link — or pay directly from the Services section above.</p>
+          <div class="info-item">
+            <div class="info-dot"></div>
+            <p>You can pay instantly for any service using the <strong style="color:var(--text)">Book & Pay</strong> buttons above — no waiting required.</p>
+          </div>
+          <div class="info-item">
+            <div class="info-dot"></div>
+            <p>Use this form if you have special requests, a specific location, or want to discuss details first.</p>
+          </div>
+          <div class="info-item">
+            <div class="info-dot"></div>
+            <p>All sessions are 100% private and discreet. Your information is never shared.</p>
+          </div>
+        </div>
+
+        <div>
+          <form class="booking-form" action="#" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your name">
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+1 (000) 000-0000">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="service">Service</label>
+              <select id="service" name="service" required>
+                <option value="">Select a service…</option>
+                <option value="Swedish Relaxation – $150">Swedish Relaxation – $150</option>
+                <option value="Deep Tissue Therapy 60min – $200">Deep Tissue Therapy 60min – $200</option>
+                <option value="Deep Tissue Therapy 90min – $300">Deep Tissue Therapy 90min – $300</option>
+                <option value="VIP Signature Session – $500">VIP Signature Session – $500</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="date">Preferred Date & Time</label>
+              <input type="text" id="date" name="date" placeholder="MM/DD/YYYY – preferred time">
+            </div>
+
+            <div class="form-group">
+              <label for="notes">Notes / Special Requests</label>
+              <textarea id="notes" name="notes" placeholder="Location, preferences, any details…"></textarea>
+            </div>
+
+            <div class="form-note">
+              <strong>💳 Ready to pay now?</strong> Use the <strong>Book & Pay</strong> buttons in the Services section above to pay instantly via Stripe — fully secure, no account needed.
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn primary" style="align-self:flex-start; border:none;">Submit Request</button>
+
+            <!-- Success / Error messages -->
+            <div id="form-success" style="display:none; padding:1rem; border:1px solid var(--gold); border-left:3px solid var(--gold); font-size:0.85rem; color:var(--gold);">
+              ✓ Booking request received! We'll be in touch shortly.
+            </div>
+            <div id="form-error" style="display:none; padding:1rem; border:1px solid #c0392b; border-left:3px solid #c0392b; font-size:0.85rem; color:#e74c3c;">
+              Something went wrong. Please call us directly at <a href="tel:+15129985093" style="color:inherit;">+1 (512) 998-5093</a>.
+            </div>
+          </form>
+
+          <script>
+            document.querySelector('.booking-form').addEventListener('submit', async function(e) {
+              e.preventDefault();
+
+              const btn = document.getElementById('submit-btn');
+              const successMsg = document.getElementById('form-success');
+              const errorMsg = document.getElementById('form-error');
+
+              btn.textContent = 'Sending…';
+              btn.disabled = true;
+              successMsg.style.display = 'none';
+              errorMsg.style.display = 'none';
+
+              const payload = {
+                name:    document.getElementById('name').value,
+                phone:   document.getElementById('phone').value,
+                service: document.getElementById('service').value,
+                date:    document.getElementById('date').value,
+                notes:   document.getElementById('notes').value,
+              };
+
+              try {
+                const res = await fetch('/.netlify/functions/submit-booking', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(payload),
+                });
+
+                if (res.ok) {
+                  successMsg.style.display = 'block';
+                  this.reset();
+                } else {
+                  errorMsg.style.display = 'block';
+                }
+              } catch {
+                errorMsg.style.display = 'block';
+              }
+
+              btn.textContent = 'Submit Request';
+              btn.disabled = false;
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Get in Touch</p>
+      <h2 style="margin-bottom: 2.5rem;">Contact Us</h2>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-icon">✆</div>
+          <h4>Phone</h4>
+          <a href="tel:+15129985093">+1 (512) 998-5093</a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          <h4>Email</h4>
+          <a href="/cdn-cgi/l/email-protection#c9a0a7afa689a5bca7a8aca5a0bdace7aaa6a4"><span class="__cf_email__" data-cfemail="f39a9d959cb39f869d92969f9a8796dd909c9e">[email&#160;protected]</span></a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">◎</div>
+          <h4>Location</h4>
+          <a href="#">United States</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="containe
