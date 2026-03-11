@@ -1,4 +1,4 @@
-// netlify/functions/submit-booking.js
+// netlify/functions/submit-booking.js 
 // Receives booking form submissions and saves to Google Sheets
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
